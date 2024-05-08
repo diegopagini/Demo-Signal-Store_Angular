@@ -1,0 +1,10 @@
+.container {
+  display: flex;
+  flex-flow: column nowrap;
+  padding: 10px;
+  color: var(--mat-app-text-color);
+
+  h2 {
+    color: var(--mat-app-text-color);
+  }
+}

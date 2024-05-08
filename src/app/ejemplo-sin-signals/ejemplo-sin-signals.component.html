@@ -1,0 +1,50 @@
+@if (loading$ | async) {
+  <div class="loading">
+    <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
+  </div>
+}
+
+<div class="container">
+  <h2>Usuarios - sin señales</h2>
+
+  <mat-form-field class="example-full-width">
+    <mat-label>Filter</mat-label>
+    <input (input)="onFilterInputChange($event)" matInput placeholder="Ex. John" />
+  </mat-form-field>
+
+  @if (users$ | async; as user) {
+    <table [dataSource]="user" mat-table>
+      <ng-container matColumnDef="name">
+        <th *matHeaderCellDef mat-header-cell>Name</th>
+        <td *matCellDef="let element" mat-cell>{{ element.name }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="lastName">
+        <th *matHeaderCellDef mat-header-cell>Last name</th>
+        <td *matCellDef="let element" mat-cell>{{ element.lastName }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="email">
+        <th *matHeaderCellDef mat-header-cell>Email</th>
+        <td *matCellDef="let element" mat-cell>{{ element.email }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th *matHeaderCellDef mat-header-cell></th>
+        <td *matCellDef="let element" mat-cell>
+          <button (click)="deleteUser(element)" mat-mini-fab>
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr *matHeaderRowDef="columnsToDisplay" mat-header-row></tr>
+      <tr *matRowDef="let row; columns: columnsToDisplay" mat-row></tr>
+    </table>
+
+    <button (click)="onAddUserClick()" mat-button>Crear usuario nuevo</button>
+
+    <div>Number of users {{ (users$ | async)?.length }} of total {{ (selectUsers() | async)?.length }}</div>
+    <div>The first user is: {{ firstUser$ | async }}</div>
+  }
+</div>
